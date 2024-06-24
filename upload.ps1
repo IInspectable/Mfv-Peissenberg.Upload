@@ -1,5 +1,5 @@
 
-$settingsFile = Join-Path $PSScriptRoot 'settings.template.json'
+$settingsFile = Join-Path $PSScriptRoot 'settings.json'
 $uploadFolder = Join-Path $PSScriptRoot 'upload'
 
 if( -not (Test-Path $settingsFile -PathType Leaf)) {
@@ -19,12 +19,17 @@ $settings = Get-Content $settingsFile | ConvertFrom-Json
 echo $settingsFile
 echo $uploadFolder
 
-echo $settings
+#echo $settings
 
 # ---------------------------
 $webcam1Src='https://www.mfv-peissenberg.de/images/s2dlogo.gif'
 Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/webcam1.gif"
 
 Get-ChildItem $uploadFolder -File | % {
-    echo $_.Name
+
+   # 
+
+    echo $_.FullName
+
+    curl -v -k "$($settings.Server)" --user "$($settings.User):$($settings.Password)" -T "$($_.FullName)"
 }
