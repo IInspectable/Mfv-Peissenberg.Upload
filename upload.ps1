@@ -6,30 +6,28 @@ if( -not (Test-Path $settingsFile -PathType Leaf)) {
     throw "The settings file $settingsFile does not exist."
 }
 
-#-----------------------
+#========= Upload Ordner löschen und neu anlgen
 if( Test-Path $uploadFolder -PathType Container) {
     Remove-Item $uploadFolder -Recurse -Force
 } 
 
-echo "erstelle $uploadFolder"
+Write-Host "Erstelle Upload Verzeichnis $uploadFolder"
 mkdir $uploadFolder | Out-Null
 
+#========= Einstellungen laden
 $settings = Get-Content $settingsFile | ConvertFrom-Json
 
-echo $settingsFile
-echo $uploadFolder
+Write-Host $settingsFile
+Write-Host $uploadFolder
+#Write-Host $settings
 
-#echo $settings
-
-# ---------------------------
+#========= Bild von Webcam anfordern ================
 $webcam1Src='https://www.mfv-peissenberg.de/images/s2dlogo.gif'
 Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/webcam1.gif"
 
+#========= Dateien hochladen ================
 Get-ChildItem $uploadFolder -File | % {
 
-   # 
-
-    echo $_.FullName
-
+    Write-Host "Lade Datei '$($_.FullName)' hoch"
     curl -v -k "$($settings.Server)" --user "$($settings.User):$($settings.Password)" -T "$($_.FullName)"
 }
