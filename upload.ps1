@@ -22,12 +22,12 @@ mkdir $uploadFolder | Out-Null
 #========= Einstellungen laden
 $settings = Get-Content $settingsFile | ConvertFrom-Json
 
-#========= Bild von Webcam anfordern ================
+#========= Bild von Startbahn Webcam anfordern ================
 $upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
 $webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
 
 Write-Verbose "Flugfeld Bild von Webcam anfordern: $webcam1Src"
-Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/Flugfeld.jpg"
+Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/Startbahn.jpg"
 
 #========= Dateien hochladen ================
 Get-ChildItem $uploadFolder -File | % {
