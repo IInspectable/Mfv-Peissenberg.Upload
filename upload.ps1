@@ -26,8 +26,8 @@ $settings = Get-Content $settingsFile | ConvertFrom-Json
 $upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
 $webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
 
-Write-Verbose "Bild von Webcam anfordern: $webcam1Src"
-Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/upcam.jpg"
+Write-Verbose "Flugfeld Bild von Webcam anfordern: $webcam1Src"
+Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/Flugfeld.jpg"
 
 #========= Dateien hochladen ================
 Get-ChildItem $uploadFolder -File | % {
