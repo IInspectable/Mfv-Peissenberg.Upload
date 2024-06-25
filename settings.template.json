@@ -1,6 +1,5 @@
 {
-    "User": "Max",
-    "Password": "Geheim",
-    "Server": "ftp:mfv-peissenberg.de",
-    "RemotePath": "Upload"
+    "User": "SFTP Username",
+    "Password": "SFTP Password",
+    "Server": "SFTP Server"
 }
