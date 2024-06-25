@@ -23,9 +23,11 @@ mkdir $uploadFolder | Out-Null
 $settings = Get-Content $settingsFile | ConvertFrom-Json
 
 #========= Bild von Webcam anfordern ================
-Write-Verbose "Bild von Webcam anfordern"
-$webcam1Src = 'https://www.mfv-peissenberg.de/images/s2dlogo.gif'
-Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/webcam1.gif"
+$upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
+$webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
+
+Write-Verbose "Bild von Webcam anfordern: $webcam1Src"
+Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/upcam.jpg"
 
 #========= Dateien hochladen ================
 Get-ChildItem $uploadFolder -File | % {
