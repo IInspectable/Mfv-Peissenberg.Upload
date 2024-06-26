@@ -35,8 +35,11 @@ Write-Verbose "Wetter Bild von Wetter-Webcam anfordern: $wetterCamSrc"
 curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WetterWebcam.jpg"
 
 #========= Dateien hochladen ================
+Write-Verbose "Lade alle Dateien aus '$uploadFolder' hoch."
+Write-Verbose "Upload Server: '$($settings.UploadServer)'."
+
 Get-ChildItem $uploadFolder -File | % {
 
-    Write-Verbose "Lade Datei '$($_.FullName)' hoch"
+    Write-Verbose "Lade Datei '$($_.FullName)' hoch."
     curl -v -k "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)"
 }
