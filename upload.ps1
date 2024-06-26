@@ -22,15 +22,17 @@ mkdir $uploadFolder | Out-Null
 #========= Einstellungen laden
 $settings = Get-Content $settingsFile | ConvertFrom-Json
 
-#========= Bild von Startbahn Webcam anfordern ================
+#========= Bild von Startbahn-Webcam anfordern ================
 $upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
 $webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
 
-Write-Verbose "Flugfeld Bild von Webcam anfordern: $webcam1Src"
+Write-Verbose "Flugfeld Bild von Startbahn-Webcam anfordern: $webcam1Src"
 Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/Startbahn.jpg"
 
-Write-Verbose "Wetter Bild von Webcam anfordern: $webcam1Src"
-curl -u "$($settings.CameraUser):$($settings.CameraPassword)" http://wettercam.fritz.box/tmpfs/snap.jpg --output "$uploadFolder/WetterCam.jpg"
+#========= Bild von Wetter-Webcam anfordern ================
+$wetterCamSrc = "http://wettercam.fritz.box/tmpfs/snap.jpg"
+Write-Verbose "Wetter Bild von Wetter-Webcam anfordern: $wetterCamSrc"
+curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WetterWebcam.jpg"
 
 #========= Dateien hochladen ================
 Get-ChildItem $uploadFolder -File | % {
