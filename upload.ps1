@@ -15,10 +15,10 @@ if( -not (Test-Path $settingsFile -PathType Leaf)) {
 
 #========= Upload Ordner leeren oder anlegen
 if( Test-Path $uploadFolder -PathType Container) {
-    Write-Verbose "Lösche Upload Verzeichnis $uploadFolder"
+    Write-Verbose "Lösche alle Dateien im Upload-Verzeichnis $uploadFolder"
     Remove-Item "$uploadFolder/*" -Recurse
 } else{
-    Write-Verbose "Erstelle Upload Verzeichnis $uploadFolder"
+    Write-Verbose "Erstelle Upload-Verzeichnis $uploadFolder"
     mkdir $uploadFolder | Out-Null
 } 
 
