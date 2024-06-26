@@ -30,12 +30,12 @@ $upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
 $webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
 
 Write-Verbose "Flugfeld Bild von Startbahn-Webcam anfordern: $webcam1Src"
-Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/Startbahn.jpg"
+Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/StartbahnWebcam.jpg"
 
-#========= Bild von Wetter-Webcam anfordern ================
+#========= Bild von Westen-Webcam anfordern ================
 $wetterCamSrc = "http://wettercam.fritz.box/tmpfs/snap.jpg"
 Write-Verbose "Wetter Bild von Wetter-Webcam anfordern: $wetterCamSrc"
-curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WetterWebcam.jpg"
+curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WestenWebcam.jpg"
 
 #========= Dateien hochladen ================
 Write-Verbose "Lade alle Dateien aus '$uploadFolder' hoch."
