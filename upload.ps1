@@ -1,4 +1,7 @@
 $VerbosePreference = 'Continue';
+$sw = [system.diagnostics.stopwatch]::StartNew()
+
+Write-Verbose "=== Upload Start $(Get-Date) ==="
 
 $settingsFile = Join-Path $PSScriptRoot 'settings.json'
 $uploadFolder = Join-Path $PSScriptRoot 'upload'
@@ -43,3 +46,5 @@ Get-ChildItem $uploadFolder -File | ForEach-Object {
     Write-Verbose "Lade Datei '$($_.FullName)' hoch."
     curl -v -k "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)"
 }
+
+Write-Verbose "=== Upload Ende $(Get-Date) in $($sw.Elapsed)==="
