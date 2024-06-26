@@ -1,5 +1,7 @@
 {
-    "User": "SFTP Username",
-    "Password": "SFTP Password",
-    "Server": "SFTP Server"
+    "UploadUser": "SFTP Username",
+    "UploadPassword": "SFTP Password",
+    "UploadServer": "SFTP Server",
+    "CameraUser": "Camera Username",
+    "CameraPassword": "Camera Password"
 }
