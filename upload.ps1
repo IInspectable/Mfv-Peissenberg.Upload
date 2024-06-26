@@ -13,14 +13,14 @@ if( -not (Test-Path $settingsFile -PathType Leaf)) {
     throw "The settings file $settingsFile does not exist."
 }
 
-#========= Upload Ordner löschen und neu anlgen
+#========= Upload Ordner leeren oder anlegen
 if( Test-Path $uploadFolder -PathType Container) {
     Write-Verbose "Lösche Upload Verzeichnis $uploadFolder"
-    Remove-Item $uploadFolder -Recurse -Force
+    Remove-Item "$uploadFolder/*" -Recurse
+} else{
+    Write-Verbose "Erstelle Upload Verzeichnis $uploadFolder"
+    mkdir $uploadFolder | Out-Null
 } 
-
-Write-Verbose "Erstelle Upload Verzeichnis $uploadFolder"
-mkdir $uploadFolder | Out-Null
 
 #========= Einstellungen laden
 $settings = Get-Content $settingsFile | ConvertFrom-Json
