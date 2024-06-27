@@ -33,7 +33,7 @@ Write-Verbose "Flugfeld Bild von Startbahn-Webcam anfordern: $webcam1Src"
 Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/StartbahnWebcam.jpg"
 
 #========= Bild von Westen-Webcam anfordern ================
-$wetterCamSrc = "http://wettercam.fritz.box/tmpfs/snap.jpg"
+$wetterCamSrc = "http://westcam.fritz.box/tmpfs/snap.jpg"
 Write-Verbose "Wetter Bild von Wetter-Webcam anfordern: $wetterCamSrc"
 curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WestenWebcam.jpg"
 
