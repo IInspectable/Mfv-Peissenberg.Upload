@@ -1,6 +1,8 @@
 $VerbosePreference = 'Continue';
 $sw = [system.diagnostics.stopwatch]::StartNew()
 
+. .\encryption.ps1
+
 Write-Verbose "=== Upload Start $(Get-Date) ==="
 
 $settingsFile = Join-Path $PSScriptRoot 'settings.json'
@@ -22,20 +24,43 @@ if( Test-Path $uploadFolder -PathType Container) {
     mkdir $uploadFolder | Out-Null
 } 
 
-#========= Einstellungen laden
+#============= Einstellungen laden  ======================
 $settings = Get-Content $settingsFile | ConvertFrom-Json
 
-#========= Bild von Startbahn-Webcam anfordern ================
-$upcamFolder=[DateTime]::Now.ToString('yyyyMMdd')
-$webcam1Src="http://mfvp.bplaced.net/$upcamFolder/images/upcam.jpg"
+#========= Upload Anweisung herunterladen ================
+$rawConfigs = (Invoke-WebRequest $settings.ConfigurationUrl).Content
+$uploadConfigurations = ConvertFrom-Json $rawConfigs
 
-Write-Verbose "Flugfeld Bild von Startbahn-Webcam anfordern: $webcam1Src"
-Invoke-WebRequest $webcam1Src -OutFile "$uploadFolder/StartbahnWebcam.jpg"
+Write-Verbose ($uploadConfigurations | Out-String)
 
-#========= Bild von Westen-Webcam anfordern ================
-$wetterCamSrc = "http://westcam.fritz.box/tmpfs/snap.jpg"
-Write-Verbose "Wetter Bild von Wetter-Webcam anfordern: $wetterCamSrc"
-curl -u "$($settings.CameraUser):$($settings.CameraPassword)" "$wetterCamSrc" --output "$uploadFolder/WestenWebcam.jpg"
+#============= Bilder anfordern ==========================
+foreach ($uploadConfig in $uploadConfigurations) {
+
+    $camSrc = $uploadConfig.downloadUrl
+    $targetFile = $uploadConfig.targetFile
+
+    $downloadUsr = $null
+    if ($uploadConfig.downloadUsr) {
+        $downloadUsr = DecryptAesString $settings.EncryptionKey $uploadConfig.downloadUsr
+    }
+
+    $downloadPwd = $null
+    if ($uploadConfig.downloadPwd) {
+        $downloadPwd = DecryptAesString $settings.EncryptionKey $uploadConfig.downloadPwd
+    }
+
+    $userParam=''
+    if ($downloadUsr -and $downloadPwd) {
+        $userParam="-u $($downloadUsr):$($downloadPwd)"
+    }
+
+    $targetPath = Join-Path $uploadFolder $targetFile
+
+    Write-Verbose "Kamerabild von '$camSrc' nach '$targetPath' herunterladen."
+    $cmd = "curl $userParam '$camSrc' --output '$targetPath'"
+
+    Invoke-Expression $cmd
+}
 
 #========= Dateien hochladen ================
 Write-Verbose "Lade alle Dateien aus '$uploadFolder' hoch."

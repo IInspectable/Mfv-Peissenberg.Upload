@@ -2,6 +2,6 @@
     "UploadUser": "SFTP Username",
     "UploadPassword": "SFTP Password",
     "UploadServer": "SFTP Server",
-    "CameraUser": "Camera Username",
-    "CameraPassword": "Camera Password"
+    "EncryptionKey":"Encrpytion Key",
+    "ConfigurationUrl":"Configuration Url"
 }
