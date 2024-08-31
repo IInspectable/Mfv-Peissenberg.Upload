@@ -2,6 +2,8 @@
     "UploadUser": "SFTP Username",
     "UploadPassword": "SFTP Password",
     "UploadServer": "SFTP Server",
-    "EncryptionKey":"Encrpytion Key",
-    "ConfigurationUrl":"Configuration Url"
+    "EncryptionKey": "Encrpytion Key",
+    "ConfigurationUrl": "Configuration Url",
+    "VitalSignUrl": "Vital Sign Url",
+    "VitalSignKey": "Vital Sign Key"
 }
