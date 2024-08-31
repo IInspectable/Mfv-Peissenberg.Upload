@@ -26,6 +26,8 @@ $data = ConvertTo-JSON @{
 
 Write-Verbose $data
 
+Write-Verbose "Sending VitalSign to '$($settings.VitalSignUrl)'"
+
 curl -d "$data" -H 'Content-Type: application/json' $settings.VitalSignUrl
 
 Write-Verbose "=== Vital Sign Ende $(Get-Date) in $($sw.Elapsed)==="
