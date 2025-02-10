@@ -69,7 +69,7 @@ Write-Verbose "Upload Server: '$($settings.UploadServer)'."
 Get-ChildItem $uploadFolder -File | ForEach-Object {
 
     Write-Verbose "Lade Datei '$($_.FullName)' hoch."
-    curl -v -k "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)"
+    curl -v -k --retry 10 --retry-delay 1 "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)" 
 }
 
 Write-Verbose "=== Upload Ende $(Get-Date) in $($sw.Elapsed)==="
