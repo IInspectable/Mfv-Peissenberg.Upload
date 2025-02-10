@@ -57,7 +57,7 @@ foreach ($uploadConfig in $uploadConfigurations) {
     $targetPath = Join-Path $uploadFolder $targetFile
 
     Write-Verbose "Kamerabild von '$camSrc' nach '$targetPath' herunterladen."
-    $cmd = "curl $userParam '$camSrc' --output '$targetPath'"
+    $cmd = "curl --retry 5 --retry-delay 1 $userParam '$camSrc' --output '$targetPath'"
 
     Invoke-Expression $cmd
 }
@@ -69,7 +69,7 @@ Write-Verbose "Upload Server: '$($settings.UploadServer)'."
 Get-ChildItem $uploadFolder -File | ForEach-Object {
 
     Write-Verbose "Lade Datei '$($_.FullName)' hoch."
-    curl -v -k --retry 10 --retry-delay 1 "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)" 
+    curl -v -k --retry 5 --retry-delay 1 "$($settings.UploadServer)" --user "$($settings.UploadUser):$($settings.UploadPassword)" -T "$($_.FullName)" 
 }
 
 Write-Verbose "=== Upload Ende $(Get-Date) in $($sw.Elapsed)==="
