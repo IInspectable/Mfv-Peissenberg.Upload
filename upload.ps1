@@ -5,6 +5,10 @@ $sw = [system.diagnostics.stopwatch]::StartNew()
 
 Write-Verbose "=== Upload Start $(Get-Date) ==="
 
+Write-Verbose "Warte 15 Sekunden"
+Start-Sleep -Milliseconds 15000
+
+
 $settingsFile = Join-Path $PSScriptRoot 'settings.json'
 $uploadFolder = Join-Path $PSScriptRoot 'upload'
 
